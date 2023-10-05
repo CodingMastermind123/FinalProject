@@ -47,10 +47,12 @@ public class Cat extends AnimatedActor {
     }
 
     public void act() {
-
+        
+        
         if(Mayflower.isKeyDown(Keyboard.KEY_RIGHT) || Mayflower.isKeyDown(Keyboard.KEY_LEFT))
         {
             setAnimation(walk);
+            
         }
         else
         {
@@ -61,7 +63,8 @@ public class Cat extends AnimatedActor {
         {
             setAnimation(fall);
         }
-
+        
+        
         super.act();
 
         x = getX();
@@ -147,7 +150,9 @@ private void checkBoltCollision()
     if(bolt != null)
     {
         getWorld().removeObject(bolt);
-        gravity = gravity - 0.1;
+        walk.setFrameDelay(walk.getFrameDelay() - 5);
+        idle.setFrameDelay(idle.getFrameDelay() - 5);
+        fall.setFrameDelay(fall.getFrameDelay() - 5);
     }
 }
     private void checkCoinCollision() {
