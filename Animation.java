@@ -19,6 +19,10 @@ public class Animation {
     {
         frameDelay = a;
     }
+    public int getFrameDelay()
+    {
+        return frameDelay;
+    }
     public MayflowerImage getNextFrame() {
         if (frameCounter >= frameDelay) {
             currentFrame = (currentFrame + 1) % frames.length;
