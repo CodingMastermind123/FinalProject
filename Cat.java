@@ -47,32 +47,28 @@ public class Cat extends AnimatedActor {
     }
 
     public void act() {
-        
-        
+
         if(Mayflower.isKeyDown(Keyboard.KEY_RIGHT) || Mayflower.isKeyDown(Keyboard.KEY_LEFT))
         {
             setAnimation(walk);
-            
+
         }
         else
         {
             setAnimation(idle);
         }
-        
+
         if(Mayflower.isKeyDown(Keyboard.KEY_UP) || Mayflower.isKeyDown(Keyboard.KEY_RIGHT) && isJumping )
         {
             setAnimation(fall);
         }
-        
-        
-        super.act();
 
+        super.act();
         x = getX();
         y = getY();
         h = getHeight();
         Dirt dirt = getOneIntersectingObject(Dirt.class);
-        
-        
+
         if(isTouching(Dirt.class))
         {
             groundY = 150;
@@ -100,8 +96,6 @@ public class Cat extends AnimatedActor {
         }
 
         
-        
-        
         setLocation(x, y);
         checkCoinCollision();
         checkWaterCollision();
@@ -116,16 +110,16 @@ public class Cat extends AnimatedActor {
                 makeVisible();
             }
         }
-        
+
         if(Mayflower.isKeyDown(Keyboard.KEY_UP) && dirt != null)
         {
-            
+
             setAnimation(walk);
             setLocation(x, y - 1);
             groundY = 150;
-            
+
         }
-        
+
     }
 
     private void updateText() {
@@ -133,31 +127,34 @@ public class Cat extends AnimatedActor {
         w.removeText(10, 30);
         w.showText("Score: " + score + " Lives: " + lives, 10, 30, Color.BLACK);
     }
-private void checkStarCollision()
-{
-    PowerUp star = getOneIntersectingObject(PowerUp.class);
-    
-    if(star != null)
+
+    private void checkStarCollision()
     {
-        getWorld().removeObject(star);
-        jumpForce = jumpForce - 1;
+        PowerUp star = getOneIntersectingObject(PowerUp.class);
+
+        if(star != null)
+        {
+            getWorld().removeObject(star);
+            jumpForce = jumpForce - 1;
+        }
     }
-}
-private void checkBoltCollision()
-{
-    Lightning bolt = getOneIntersectingObject(Lightning.class);
-    
-    if(bolt != null)
+
+    public void checkBoltCollision()
     {
-        getWorld().removeObject(bolt);
-        walk.setFrameDelay(walk.getFrameDelay() - 5);
-        idle.setFrameDelay(idle.getFrameDelay() - 5);
-        fall.setFrameDelay(fall.getFrameDelay() - 5);
+        Lightning bolt = getOneIntersectingObject(Lightning.class);
+
+        if(bolt != null)
+        {
+            getWorld().removeObject(bolt);
+            MovingBlock.increaseNum();
+            Water.increaseNum();
+            Dirt.increaseNum();
+            Coin.increaseNum();
+        }
     }
-}
+
     private void checkCoinCollision() {
         Coin coin = getOneIntersectingObject(Coin.class);
-        
 
         if (coin != null) {
             getWorld().removeObject(coin);
@@ -167,19 +164,19 @@ private void checkBoltCollision()
     }
 
     public boolean checkWaterCollision() {
-    Water water = getOneIntersectingObject(Water.class);
+        Water water = getOneIntersectingObject(Water.class);
 
-    if (water != null && !isInvincible) {
-        lives--;
-        updateText(); 
-        isInvincible = true;
-        invincibilityCooldown = 100; 
-        makeInvisible(); 
-        resetPosition();
-        return true;
+        if (water != null && !isInvincible) {
+            lives--;
+            updateText(); 
+            isInvincible = true;
+            invincibilityCooldown = 100; 
+            makeInvisible(); 
+            resetPosition();
+            return true;
+        }
+        return false;
     }
-    return false;
-}
 
     private void makeInvisible() {
         getImage().setTransparency(0); 
