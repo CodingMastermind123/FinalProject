@@ -2,7 +2,6 @@ import mayflower.*;
 
 public class Lightning extends AnimatedActor
 {
-    private String[] frames;
     private Animation move;
     
     public Lightning()
